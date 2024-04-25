@@ -1,0 +1,6 @@
+@CommandesAPI_HostAddress = http://localhost:5015
+
+GET {{CommandesAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
