@@ -41,6 +41,6 @@ jobs:
       - name: Build and analyze
         shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"mspr-commande" /d:sonar.token="sqp_50b6661f17093882c5057992789e10f0dddcce38" /d:sonar.host.url="https://emerging-good-sculpin.ngrok-free.app:8080"
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"mspr-commande" /d:sonar.token="sqp_50b6661f17093882c5057992789e10f0dddcce38" /d:sonar.host.url="https://emerging-good-sculpin.ngrok-free.app"
           dotnet build
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="sqp_50b6661f17093882c5057992789e10f0dddcce38"
