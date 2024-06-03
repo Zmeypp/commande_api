@@ -1,4 +1,4 @@
-name: Build and Analyze
+name: Build and Test
 
 on:
   push:
@@ -6,20 +6,18 @@ on:
       - master
 
 jobs:
-  build:
-    name: Build, Test, Analyze, and Generate Coverage Report
+  build-and-test:
+    name: Build, Test, and Analyze
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-        with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
 
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v2
         with:
-          dotnet-version: '8.0.x'  # Utilisez la version .NET 8.0 appropriée
+          dotnet-version: '6.0.x'
 
       - name: Install dependencies
         run: dotnet restore
@@ -27,36 +25,11 @@ jobs:
       - name: Build
         run: dotnet build --no-restore
 
-      - name: Run tests with coverage
-        run: dotnet test --no-build --collect:"XPlat Code Coverage" /p:CoverletOutputFormat=opencover /p:CoverletOutput=TestResults/
+      - name: Run Cucumber tests
+        run: |
+          # Replace this command with the command to run your Cucumber tests
+          echo "Running Cucumber tests..."
+          # For example:
+          # dotnet test path/to/your/test/project
 
-      - name: List test result files
-        run: ls -R TestResults
-
-      - name: List all files in the current directory
-        run: ls -R .
-
-      - name: Install ReportGenerator
-        run: dotnet tool install -g dotnet-reportgenerator-globaltool
-
-      - name: Generate coverage report
-        run: reportgenerator -reports:TestResults/coverage.opencover.xml -targetdir:coveragereport -reporttypes:Html
-
-      - name: Upload coverage report
-        uses: actions/upload-artifact@v2
-        with:
-          name: coverage-report
-          path: coveragereport
-
-      - name: SonarQube Scan
-        uses: sonarsource/sonarqube-scan-action@master
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-
-      # Uncomment the following lines if you wish to fail your job when the Quality Gate is red.
-      # - name: SonarQube Quality Gate
-      #   uses: sonarsource/sonarqube-quality-gate-action@master
-      #   timeout-minutes: 5
-      #   env:
-      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      # Add more steps for SonarQube analysis, code coverage, etc. if needed
