@@ -30,14 +30,14 @@ jobs:
       - name: Run tests with coverage
         run: dotnet test --no-build --collect:"XPlat Code Coverage" /p:CoverletOutputFormat=opencover /p:CoverletOutput=./TestResults/
 
-      - name: List test result files
-        run: ls -R ./TestResults
+      - name: List all files in the current directory
+        run: ls -R
 
       - name: Install ReportGenerator
         run: dotnet tool install -g dotnet-reportgenerator-globaltool
 
       - name: Generate coverage report
-        run: reportgenerator -reports:./TestResults/coverage.opencover.xml -targetdir:coveragereport -reporttypes:Html
+        run: reportgenerator -reports:**/coverage.opencover.xml -targetdir:coveragereport -reporttypes:Html
 
       - name: Upload coverage report
         uses: actions/upload-artifact@v2
